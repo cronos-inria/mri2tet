@@ -1,0 +1,21 @@
+[build-system]
+requires = ["scikit-build-core>=0.10", "pybind11>=2.13"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "mri2tet"
+version = "0.1.0"
+description = "Generate tetrahedral meshes from labelled MRI images using CGAL."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+dependencies = ["meshio>=5.3,<6", "nibabel>=5.3,<6", "numpy>=2.0"]
+
+[project.scripts]
+mri2tet = "mri2tet.cli:main"
+
+[tool.scikit-build]
+cmake.build-type = "Release"
+wheel.packages = ["src/mri2tet"]
+sdist.include = ["CMakeLists.txt", "LICENSE", "README.md", "pyproject.toml", "src/**", "src/mri2tet/py.typed", "tests/**"]

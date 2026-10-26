@@ -1,0 +1,10 @@
+SPDX-License-Identifier: GPL-3.0-or-later
+
+This project is licensed under the GNU General Public License, version 3 or
+any later version. The full license text is available at:
+
+https://www.gnu.org/licenses/gpl-3.0.txt
+
+The project uses CGAL's Mesh_3 and 3D Triangulations packages, which CGAL
+licenses under the GPL. See https://www.cgal.org/license.html and the CGAL
+package overview for the license terms applicable to those components.

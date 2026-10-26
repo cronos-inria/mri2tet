@@ -1,0 +1,38 @@
+[workspace]
+name = "mri2tet"
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[activation.env]
+# Set this to a CGAL tag, branch, or (for reproducibility) full commit SHA.
+CGAL_REF = "e168dd602ccb3058227165a029e2998859155de8" # "v6.2"
+
+[dependencies]
+python = ">=3.10"
+pip = ">=25"
+python-build = ">=1.2"
+git = ">=2.4"
+boost-cpp = ">=1.74"
+gmp = ">=6.3"
+mpfr = ">=4.2"
+tbb-devel = ">=2021"
+cxx-compiler = ">=1.9"
+cmake = ">=3.24"
+ninja = ">=1.11"
+pybind11 = ">=2.13"
+scikit-build-core = ">=0.10"
+numpy = ">=2.0"
+nibabel = ">=5.3,<6"
+meshio = ">=5.3,<6"
+pytest = ">=8"
+
+[tasks]
+cgal-source = { cmd = "bash scripts/fetch-cgal.sh \"$CGAL_REF\"", inputs = ["scripts/fetch-cgal.sh", "pixi.toml"] }
+build = { cmd = "CGAL_DIR=\"$PWD/.pixi/cgal/source\" CMAKE_PREFIX_PATH=\"$PWD/.pixi/cgal/source${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}\" python -m pip install --no-deps --no-build-isolation --force-reinstall .", depends-on = ["cgal-source"] }
+sdist = "python -m build --no-isolation --sdist"
+
+mri2tet = { cmd = "mri2tet", description = "Run the mri2tet command-line interface" }
+
+[tasks.test]
+cmd = "python -m pytest"
+depends-on = ["build"]

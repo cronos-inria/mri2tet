@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.24)
+project(mri2tet LANGUAGES CXX)
+
+find_package(CGAL REQUIRED)
+find_package(TBB REQUIRED)
+include(CGAL_TBB_support)
+set(PYBIND11_FINDPYTHON ON)
+find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
+find_package(pybind11 CONFIG REQUIRED)
+
+pybind11_add_module(_mesh MODULE src/mesh.cpp)
+target_compile_features(_mesh PRIVATE cxx_std_17)
+target_link_libraries(_mesh PRIVATE CGAL::CGAL CGAL::TBB_support)
+install(TARGETS _mesh DESTINATION mri2tet)
+install(FILES src/mri2tet/py.typed DESTINATION mri2tet)
